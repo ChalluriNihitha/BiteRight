@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>BiteRight - Your Personalized Health Food Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Enhanced 3D Floating Shapes */
+        .floating-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.15;
+            animation: float3D 25s infinite ease-in-out;
+            border-radius: 50%;
+            backdrop-filter: blur(10px);
+        }
+
+        .shape:nth-child(1) {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+            box-shadow: 0 20px 60px rgba(255,255,255,0.3);
+        }
+
+        .shape:nth-child(2) {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #fff 0%, #e0e0e0 100%);
+            top: 60%;
+            left: 80%;
+            animation-delay: 5s;
+            box-shadow: 0 15px 45px rgba(255,255,255,0.3);
+        }
+
+        .shape:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #fff 0%, #d0d0d0 100%);
+            top: 80%;
+            left: 20%;
+            animation-delay: 10s;
+            box-shadow: 0 25px 75px rgba(255,255,255,0.3);
+        }
+
+        .shape:nth-child(4) {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #fff 0%, #e8e8e8 100%);
+            top: 30%;
+            left: 70%;
+            animation-delay: 15s;
+            box-shadow: 0 18px 55px rgba(255,255,255,0.3);
+        }
+
+        .shape:nth-child(5) {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #fff 0%, #f5f5f5 100%);
+            top: 50%;
+            left: 30%;
+            animation-delay: 20s;
+            box-shadow: 0 12px 40px rgba(255,255,255,0.3);
+        }
+
+        @keyframes float3D {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+            }
+            25% {
+                transform: translate(30px, -30px) rotate(90deg) scale(1.1);
+            }
+            50% {
+                transform: translate(-20px, -60px) rotate(180deg) scale(0.9);
+            }
+            75% {
+                transform: translate(-40px, -30px) rotate(270deg) scale(1.05);
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            animation: slideDown 1s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo-container {
+            display: inline-block;
+            animation: rotate3D 3s ease-in-out infinite;
+        }
+
+        @keyframes rotate3D {
+            0%, 100% {
+                transform: perspective(1000px) rotateY(0deg);
+            }
+            50% {
+                transform: perspective(1000px) rotateY(15deg);
+            }
+        }
+
+        .logo {
+            font-size: 56px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .tagline {
+            color: rgba(255,255,255,0.95);
+            font-size: 20px;
+            margin-bottom: 30px;
+            font-weight: 300;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .main-content {
+            display: none;
+        }
+
+        .main-content.active {
+            display: block;
+            animation: fadeInScale 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 30px;
+            padding: 50px;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: 0 30px 90px rgba(0,0,0,0.4);
+            animation: scaleRotate 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes scaleRotate {
+            from {
+                opacity: 0;
+                transform: scale(0.5) rotate(-10deg);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .login-container h2 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 35px;
+            text-align: center;
+            font-size: 36px;
+            font-weight: 800;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            font-size: 16px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: #fafafa;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+            background: #fff;
+            transform: translateY(-2px);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin-top: 15px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .dashboard {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 30px;
+            padding: 40px;
+            margin-top: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .welcome-section {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            color: white;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 45px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+
+        .welcome-section h2 {
+            font-size: 42px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome-section p {
+            font-size: 18px;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 35px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            transition: left 0.5s;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+
+        .feature-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 12px;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            color: #555;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .health-form {
+            background: #f8f9fa;
+            padding: 35px;
+            border-radius: 20px;
+            margin-top: 25px;
+        }
+
+        .health-conditions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .condition-checkbox {
+            display: flex;
+            align-items: center;
+            padding: 18px;
+            background: white;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+
+        .condition-checkbox:hover {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .condition-checkbox input[type="checkbox"] {
+            margin-right: 12px;
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .recommendations {
+            margin-top: 30px;
+        }
+
+        .food-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .food-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .food-card:hover::before {
+            left: 100%;
+        }
+
+        .food-card:hover {
+            transform: translateX(15px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .food-image {
+            width: 100%;
+            height: 200px;
+            border-radius: 15px;
+            object-fit: cover;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .food-card h4 {
+            color: #667eea;
+            margin-bottom: 12px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .food-card p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .food-details {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .detail-badge {
+            padding: 10px 18px;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 25px;
+            font-size: 14px;
+            color: #1976d2;
+            font-weight: 700;
+            box-shadow: 0 3px 10px rgba(25, 118, 210, 0.2);
+        }
+
+        .restaurant-section {
+            margin-top: 35px;
+            padding: 35px;
+            background: #f8f9fa;
+            border-radius: 20px;
+        }
+
+        .restaurant-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .restaurant-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .restaurant-info h5 {
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .restaurant-info p {
+            color: #666;
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .rating {
+            color: #ffa726;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .location-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .location-selector input,
+        .location-selector select {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .location-selector input:focus,
+        .location-selector select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+        }
+
+        .scan-section {
+            text-align: center;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            color: white;
+            margin-top: 30px;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scan-section::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            top: -150px;
+            right: -150px;
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.8;
+            }
+        }
+
+        .scan-button {
+            background: white;
+            color: #667eea;
+            padding: 22px 50px;
+            border-radius: 50px;
+            font-size: 22px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            margin-top: 25px;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(255,255,255,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .scan-button:hover {
+            transform: scale(1.1) rotate(2deg);
+            box-shadow: 0 15px 45px rgba(255,255,255,0.4);
+        }
+
+        .scan-result {
+            margin-top: 30px;
+            padding: 35px;
+            background: white;
+            color: #333;
+            border-radius: 20px;
+            display: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        .scan-result.active {
+            display: block;
+            animation: zoomIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .recommendation-badge {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 700;
+            margin-top: 20px;
+            font-size: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .safe {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+        }
+
+        .caution {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+            color: white;
+        }
+
+        .avoid {
+            background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+            color: white;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 35px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-tab {
+            padding: 15px 30px;
+            background: white;
+            border: 3px solid #667eea;
+            color: #667eea;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .nav-tab:hover,
+        .nav-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nutrition-chart {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .chart-item {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .chart-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .chart-value {
+            font-size: 42px;
+            font-weight: 900;
+            margin: 15px 0;
+        }
+
+        .chart-label {
+            font-size: 15px;
+            opacity: 0.95;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 25px;
+            background: white;
+            color: #667eea;
+            border: 3px solid #667eea;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .logout-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 35px 25px;
+            }
+
+            .logo {
+                font-size: 42px;
+            }
+
+            .tagline {
+                font-size: 16px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-selector {
+                flex-direction: column;
+            }
+
+            .dashboard {
+                padding: 25px;
+            }
+
+            .welcome-section h2 {
+                font-size: 32px;
+            }
+
+            .nav-tabs {
+                gap: 8px;
+            }
+
+            .nav-tab {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+
+            .logout-btn {
+                top: 10px;
+                right: 10px;
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Success Animation */
+        .success-checkmark {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 2;
+            stroke: #4caf50;
+            stroke-miterlimit: 10;
+            box-shadow: inset 0px 0px 0px #4caf50;
+            animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.9s both;
+        }
+
+        @keyframes fill {
+            100% {
+                box-shadow: inset 0px 0px 0px 30px #4caf50;
+            }
+        }
+
+        @keyframes scale {
+            0%, 100% {
+                transform: none;
+            }
+            50% {
+                transform: scale3d(1.1, 1.1, 1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo">🍽️ BiteRight</div>
+            </div>
+            <div class="tagline">Your Personalized Health Food Guide</div>
+        </header>
+
+        <!-- Login Section -->
+        <div id="loginSection" class="main-content active">
+            <div class="login-container">
+                <h2>Welcome to BiteRight!</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label>📧 Email Address</label>
+                        <input type="email" id="emailInput" placeholder="Enter your email address" required>
+                    </div>
+                    <button type="submit" class="btn">Login / Sign Up</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Profile Setup Section -->
+        <div id="profileSection" class="main-content">
+            <button class="logout-btn" onclick="logout()">Logout</button>
+            <div class="dashboard">
+                <h2 style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin-bottom: 35px; font-size: 38px;">Complete Your Profile</h2>
+                <form id="profileForm" class="health-form">
+                    <div class="form-group">
+                        <label>👤 Full Name</label>
+                        <input type="text" id="nameInput" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label>🎂 Age</label>
+                        <input type="number" id="ageInput" min="1" max="120" required placeholder="Enter your age">
+                    </div>
+                    <div class="form-group">
+                        <label>⚧ Gender</label>
+                        <select id="genderInput" required>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>⚖️ Weight (kg)</label>
+                        <input type="number" id="weightInput" min="1" placeholder="Enter your weight">
+                    </div>
+                    <div class="form-group">
+                        <label>📏 Height (cm)</label>
+                        <input type="number" id="heightInput" min="1" placeholder="Enter your height">
+                    </div>
+                    <div class="form-group">
+                        <label>🏥 Select Your Health Conditions (if any)</label>
+                        <div class="health-conditions">
+                            <label class="condition-checkbox">
+                                <input type="checkbox" value="diabetes"> Diabetes
+                            </label>
+                            <label class="condition-checkbox">
+                                <input type="checkbox" value="hypertension"> High Blood Pressure
+                            </label>
+                            <label class="condition-checkbox">
+                                <input type="checkbox" value="heart"> Heart Disease
+                            </label>
+                            <label class="condition-checkbox">
+                                <input type="checkbox" value="cholesterol"> High Cholesterol
+                            </label>
+                            <label class="condition-checkbox">
+                                <input type="checkbox" value="thyroid"> Thyroid Issues
+                            </label>
+                            <label class="condition-checkbox">
+                                <input type="checkbox" value="obesity"> Obesity / Weight Loss
+                            </label>
+                            <label class="condition-checkbox">
+                                <input type="checkbox" value="pcod"> PCOD/PCOS
+                            </label>
+                            <label class="condition-checkbox">
+                                <input type="checkbox" value="anemia"> Anemia
+                            </label>
+                            <label class="condition-checkbox">
+                                <input type="checkbox" value="gastric"> Gastric Issues
+                            </label>
+                            <label class="condition-checkbox">
+                                <input type="checkbox" value="kidney"> Kidney Disease
+                            </label>
+                            <label class="condition-checkbox">
+                                <input type="checkbox" value="none"> None (Healthy Living)
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn">Continue to Dashboard</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboardSection" class="main-content">
+            <button class="logout-btn" onclick="logout()">Logout</button>
+            <div class="dashboard">
+                <div class="welcome-section">
+                    <h2>Welcome, <span id="userName">User</span>! 👋</h2>
+                    <p>Your personalized health food companion is ready</p>
+                </div>
+
+                <div class="nav-tabs">
+                    <button class="nav-tab active" onclick="switchTab('recommendations')">🍎 Food Recommendations</button>
+                    <button class="nav-tab" onclick="switchTab('restaurants')">🍽️ Nearby Restaurants</button>
+                    <button class="nav-tab" onclick="switchTab('scanner')">📷 Food Scanner</button>
+                    <button class="nav-tab" onclick="switchTab('diet')">💪 Diet Plan</button>
+                </div>
+
+                <!-- Recommendations Tab -->
+                <div id="recommendationsTab" class="tab-content active">
+                    <h3 style="color: #667eea; margin-bottom: 25px; font-size: 28px;">Personalized Food Recommendations</h3>
+                    <div id="recommendationsList" class="recommendations"></div>
+                </div>
+
+                <!-- Restaurants Tab -->
+                <div id="restaurantsTab" class="tab-content">
+                    <div class="restaurant-section">
+                        <h3 style="color: #667eea; margin-bottom: 25px; font-size: 28px;">Find Healthy Restaurants Near You</h3>
+                        <div class="location-selector">
+                            <select id="citySelect" onchange="updateRestaurants()">
+                                <option value="hyderabad">Hyderabad</option>
+                                <option value="bangalore">Bangalore</option>
+                                <option value="mumbai">Mumbai</option>
+                                <option value="delhi">Delhi</option>
+                                <option value="chennai">Chennai</option>
+                                <option value="pune">Pune</option>
+                            </select>
+                            <input type="text" id="areaInput" placeholder="Enter your area/locality" onchange="updateRestaurants()">
+                            <button class="btn" style="width: auto; padding: 15px 35px;" onclick="updateRestaurants()">🔍 Search</button>
+                        </div>
+                        <div id="restaurantsList"></div>
+                    </div>
+                </div>
+
+                <!-- Scanner Tab -->
+                <div id="scannerTab" class="tab-content">
+                    <div class="scan-section">
+                        <h2 style="font-size: 38px; margin-bottom: 15px;">🔍 Food Scanner</h2>
+                        <p style="font-size: 20px; margin-top: 10px;">Scan any food item to check if it's suitable for your health</p>
+                        <button class="scan-button" onclick="scanFood()">📸 Scan Food Item</button>
+                        <div id="scanResult" class="scan-result"></div>
+                    </div>
+                </div>
+
+                <!-- Diet Plan Tab -->
+                <div id="dietTab" class="tab-content">
+                    <h3 style="color: #667eea; margin-bottom: 25px; font-size: 28px;">Your Personalized Diet Plan</h3>
+                    <div class="nutrition-chart">
+                        <div class="chart-item">
+                            <div class="chart-label">Daily Calories</div>
+                            <div class="chart-value" id="calorieTarget">2000</div>
+                            <div class="chart-label">kcal</div>
+                        </div>
+                        <div class="chart-item">
+                            <div class="chart-label">Protein</div>
+                            <div class="chart-value" id="proteinTarget">60</div>
+                            <div class="chart-label">grams</div>
+                        </div>
+                        <div class="chart-item">
+                            <div class="chart-label">Carbs</div>
+                            <div class="chart-value" id="carbTarget">250</div>
+                            <div class="chart-label">grams</div>
+                        </div>
+                        <div class="chart-item">
+                            <div class="chart-label">Fats</div>
+                            <div class="chart-value" id="fatTarget">65</div>
+                            <div class="chart-label">grams</div>
+                        </div>
+                    </div>
+                    <div id="dietPlanList" class="recommendations" style="margin-top: 40px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let userData = {
+            name: '',
+            age: '',
+            gender: '',
+            weight: '',
+            height: '',
+            conditions: []
+        };
+
+        // Login Form Handler
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('emailInput').value;
+            
+            if (email) {
+                document.getElementById('loginSection').classList.remove('active');
+                document.getElementById('profileSection').classList.add('active');
+            } else {
+                alert('Please enter your email address');
+            }
+        });
+
+        // Profile Form Handler
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            userData.name = document.getElementById('nameInput').value;
+            userData.age = document.getElementById('ageInput').value;
+            userData.gender = document.getElementById('genderInput').value;
+            userData.weight = document.getElementById('weightInput').value;
+            userData.height = document.getElementById('heightInput').value;
+            
+            const checkboxes = document.querySelectorAll('.condition-checkbox input[type="checkbox"]:checked');
+            userData.conditions = Array.from(checkboxes).map(cb => cb.value);
+            
+            document.getElementById('userName').textContent = userData.name;
+            document.getElementById('profileSection').classList.remove('active');
+            document.getElementById('dashboardSection').classList.add('active');
+            
+            generateRecommendations();
+            updateRestaurants();
+            generateDietPlan();
+        });
+
+        function generateRecommendations() {
+            const recommendations = {
+                diabetes: [
+                    { 
+                        name: 'Whole Grain Roti with Dal', 
+                        calories: 350, 
+                        protein: 15, 
+                        benefits: 'Low glycemic index food that helps control blood sugar levels steadily throughout the day',
+                        image: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&q=80'
+                    },
+                    { 
+                        name: 'Grilled Chicken Salad', 
+                        calories: 280, 
+                        protein: 35, 
+                        benefits: 'High protein and low carbs help manage diabetes while building muscle mass',
+                        image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80'
+                    },
+                    { 
+                        name: 'Oats with Nuts and Berries', 
+                        calories: 320, 
+                        protein: 12, 
+                        benefits: 'Rich in soluble fiber that controls glucose spikes and improves insulin sensitivity',
+                        image: 'https://images.unsplash.com/photo-1590301157890-4810ed352733?w=800&q=80'
+                    },
+                    { 
+                        name: 'Vegetable Soup', 
+                        calories: 150, 
+                        protein: 5, 
+                        benefits: 'Low calorie, nutrient-rich option perfect for maintaining blood sugar levels',
+                        image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&q=80'
+                    }
+                ],
+                hypertension: [
+                    { 
+                        name: 'Banana Smoothie', 
+                        calories: 200, 
+                        protein: 8, 
+                        benefits: 'High potassium content helps lower blood pressure naturally and supports heart health',
+                        image: 'https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=800&q=80'
+                    },
+                    { 
+                        name: 'Grilled Fish with Vegetables', 
+                        calories: 320, 
+                        protein: 40, 
+                        benefits: 'Omega-3 rich food that reduces inflammation and promotes cardiovascular health',
+                        image: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&q=80'
+                    },
+                    { 
+                        name: 'Spinach Salad', 
+                        calories: 120, 
+                        protein: 6, 
+                        benefits: 'Packed with magnesium and potassium to help regulate blood pressure',
+                        image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80'
+                    },
+                    { 
+                        name: 'Brown Rice with Lentils', 
+                        calories: 380, 
+                        protein: 18, 
+                        benefits: 'Whole grains reduce sodium impact and provide sustained energy',
+                        image: 'https://images.unsplash.com/photo-1516714435131-44d6b64dc6a2?w=800&q=80'
+                    }
+                ],
+                heart: [
+                    { 
+                        name: 'Oatmeal with Fresh Berries', 
+                        calories: 280, 
+                        protein: 10, 
+                        benefits: 'Beta-glucan fiber helps lower LDL cholesterol and protects heart health',
+                        image: 'https://images.unsplash.com/photo-1517673132405-a56a62b18caf?w=800&q=80'
+                    },
+                    { 
+                        name: 'Salmon with Quinoa', 
+                        calories: 420, 
+                        protein: 38, 
+                        benefits: 'Rich in omega-3 fatty acids that reduce inflammation and support cardiac function',
+                        image: 'https://images.unsplash.com/photo-1485704686097-ed47f7263ca4?w=800&q=80'
+                    },
+                    { 
+                        name: 'Walnut Trail Mix', 
+                        calories: 220, 
+                        protein: 8, 
+                        benefits: 'Heart-healthy fats improve cholesterol ratios and arterial function',
+                        image: 'https://images.unsplash.com/photo-1599599810769-bcde5a160d32?w=800&q=80'
+                    },
+                    { 
+                        name: 'Avocado Toast', 
+                        calories: 310, 
+                        protein: 12, 
+                        benefits: 'Monounsaturated fats support cardiovascular health and reduce bad cholesterol',
+                        image: 'https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?w=800&q=80'
+                    }
+                ],
+                obesity: [
+                    { 
+                        name: 'Grilled Vegetables Platter', 
+                        calories: 180, 
+                        protein: 8, 
+                        benefits: 'Low calorie, high fiber meal that promotes satiety and weight loss',
+                        image: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=800&q=80'
+                    },
+                    { 
+                        name: 'Egg White Omelette', 
+                        calories: 150, 
+                        protein: 25, 
+                        benefits: 'High protein, zero fat option perfect for building lean muscle',
+                        image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=800&q=80'
+                    },
+                    { 
+                        name: 'Green Tea with Honey', 
+                        calories: 40, 
+                        protein: 0, 
+                        benefits: 'Boosts metabolism and aids in fat burning throughout the day',
+                        image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=800&q=80'
+                    },
+                    { 
+                        name: 'Chickpea Salad', 
+                        calories: 250, 
+                        protein: 15, 
+                        benefits: 'Filling and nutrient-dense with plant-based protein',
+                        image: 'https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=800&q=80'
+                    }
+                ],
+                cholesterol: [
+                    { 
+                        name: 'Oats Bowl with Almonds', 
+                        calories: 290, 
+                        protein: 11, 
+                        benefits: 'Soluble fiber reduces LDL cholesterol absorption',
+                        image: 'https://images.unsplash.com/photo-1517673132405-a56a62b18caf?w=800&q=80'
+                    },
+                    { 
+                        name: 'Garlic Mushroom Stir-fry', 
+                        calories: 200, 
+                        protein: 9, 
+                        benefits: 'Garlic helps lower cholesterol naturally',
+                        image: 'https://images.unsplash.com/photo-1596040033229-a0b55b3f6e9c?w=800&q=80'
+                    }
+                ],
+                thyroid: [
+                    { 
+                        name: 'Brazil Nuts Snack', 
+                        calories: 180, 
+                        protein: 4, 
+                        benefits: 'Rich in selenium, essential for thyroid function',
+                        image: 'https://images.unsplash.com/photo-1599599810769-bcde5a160d32?w=800&q=80'
+                    },
+                    { 
+                        name: 'Seaweed Salad', 
+                        calories: 130, 
+                        protein: 6, 
+                        benefits: 'Natural source of iodine for thyroid health',
+                        image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80'
+                    }
+                ],
+                pcod: [
+                    { 
+                        name: 'Flaxseed Smoothie', 
+                        calories: 220, 
+                        protein: 10, 
+                        benefits: 'Helps balance hormones and reduce inflammation',
+                        image: 'https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=800&q=80'
+                    },
+                    { 
+                        name: 'Quinoa Bowl', 
+                        calories: 310, 
+                        protein: 14, 
+                        benefits: 'Low GI food helps manage insulin resistance',
+                        image: 'https://images.unsplash.com/photo-1546548970-71785318a17b?w=800&q=80'
+                    }
+                ],
+                anemia: [
+                    { 
+                        name: 'Spinach and Lentil Curry', 
+                        calories: 280, 
+                        protein: 16, 
+                        benefits: 'Rich in iron and folate to combat anemia',
+                        image: 'https://images.unsplash.com/photo-1516714435131-44d6b64dc6a2?w=800&q=80'
+                    },
+                    { 
+                        name: 'Pomegranate Juice', 
+                        calories: 140, 
+                        protein: 2, 
+                        benefits: 'Boosts hemoglobin levels naturally',
+                        image: 'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=800&q=80'
+                    }
+                ],
+                gastric: [
+                    { 
+                        name: 'Ginger Tea with Toast', 
+                        calories: 160, 
+                        protein: 4, 
+                        benefits: 'Soothes digestive system and reduces inflammation',
+                        image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=800&q=80'
+                    },
+                    { 
+                        name: 'Banana with Yogurt', 
+                        calories: 180, 
+                        protein: 8, 
+                        benefits: 'Easy to digest and promotes gut health',
+                        image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=800&q=80'
+                    }
+                ],
+                kidney: [
+                    { 
+                        name: 'Apple Slices with Almond Butter', 
+                        calories: 200, 
+                        protein: 6, 
+                        benefits: 'Low potassium option suitable for kidney health',
+                        image: 'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=800&q=80'
+                    },
+                    { 
+                        name: 'Cauliflower Rice Bowl', 
+                        calories: 150, 
+                        protein: 7, 
+                        benefits: 'Low phosphorus alternative to regular rice',
+                        image: 'https://images.unsplash.com/photo-1546548970-71785318a17b?w=800&q=80'
+                    }
+                ],
+                none: [
+                    { 
+                        name: 'Paneer Tikka', 
+                        calories: 320, 
+                        protein: 22, 
+                        benefits: 'High protein and calcium-rich for strong bones and muscles',
+                        image: 'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=800&q=80'
+                    },
+                    { 
+                        name: 'Chicken Biryani', 
+                        calories: 450, 
+                        protein: 28, 
+                        benefits: 'Balanced meal with proteins, carbs, and essential nutrients',
+                        image: 'https://images.unsplash.com/photo-1563379091339-03b87a3c7551?w=800&q=80'
+                    },
+                    { 
+                        name: 'Mixed Fruit Bowl', 
+                        calories: 180, 
+                        protein: 2, 
+                        benefits: 'Rich in vitamins, minerals, and antioxidants for overall health',
+                        image: 'https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?w=800&q=80'
+                    },
+                    { 
+                        name: 'Idli with Sambar', 
+                        calories: 310, 
+                        protein: 12, 
+                        benefits: 'Fermented food rich in probiotics for gut health',
+                        image: 'https://images.unsplash.com/photo-1630383249896-424e482df921?w=800&q=80'
+                    }
+                ]
+            };
+
+            let foods = [];
+            if (userData.conditions.includes('none') || userData.conditions.length === 0) {
+                foods = recommendations.none;
+            } else {
+                userData.conditions.forEach(condition => {
+                    if (recommendations[condition]) {
+                        foods = foods.concat(recommendations[condition]);
+                    }
+                });
+            }
+
+            // Remove duplicates
+            foods = foods.filter((food, index, self) =>
+                index === self.findIndex((f) => f.name === food.name)
+            );
+
+            const html = foods.map(food => `
+                <div class="food-card">
+                    <img src="${food.image}" alt="${food.name}" class="food-image" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80'">
+                    <h4>🍽️ ${food.name}</h4>
+                    <p>${food.benefits}</p>
+                    <div class="food-details">
+                        <span class="detail-badge">🔥 ${food.calories} cal</span>
+                        <span class="detail-badge">💪 ${food.protein}g protein</span>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('recommendationsList').innerHTML = html;
+        }
+
+        function updateRestaurants() {
+            const city = document.getElementById('citySelect').value;
+            const area = document.getElementById('areaInput').value || 'Multiple Areas';
+
+            const restaurants = {
+                hyderabad: [
+                    { name: 'Green Leaf Restaurant', area: 'Banjara Hills', rating: '⭐ 4.5', cuisine: 'Healthy Indian & Continental', phone: '+91 40 2335 5678' },
+                    { name: 'Fit Food Junction', area: 'Hitech City', rating: '⭐ 4.7', cuisine: 'Low-calorie meals, Fresh Salads', phone: '+91 40 4455 6677' },
+                    { name: 'Salad Days', area: 'Jubilee Hills', rating: '⭐ 4.3', cuisine: 'Organic Salads & Power Bowls', phone: '+91 40 2339 8899' },
+                    { name: 'Protein Palace', area: 'Gachibowli', rating: '⭐ 4.6', cuisine: 'High-protein meals, Grills', phone: '+91 40 6677 8899' },
+                    { name: 'Heart Health Cafe', area: 'Madhapur', rating: '⭐ 4.4', cuisine: 'Cardiac-friendly food, No oil cooking', phone: '+91 40 2244 5566' },
+                    { name: 'Diabetic Delights', area: 'Kukatpally', rating: '⭐ 4.6', cuisine: 'Sugar-free desserts, Low GI meals', phone: '+91 40 3355 6677' },
+                    { name: 'Pure Veg Health Kitchen', area: 'Begumpet', rating: '⭐ 4.5', cuisine: 'Vegetarian, Vegan options', phone: '+91 40 2788 9900' }
+                ],
+                bangalore: [
+                    { name: 'Healthy Bites', area: 'Koramangala', rating: '⭐ 4.6', cuisine: 'Organic & Healthy meals', phone: '+91 80 4455 6677' },
+                    { name: 'Fit Kitchen', area: 'Indiranagar', rating: '⭐ 4.5', cuisine: 'Diet meals, Keto options', phone: '+91 80 2233 4455' },
+                    { name: 'Green Bowl', area: 'Whitefield', rating: '⭐ 4.4', cuisine: 'Salads & Fresh Smoothies', phone: '+91 80 5566 7788' },
+                    { name: 'Nutrition Hub', area: 'HSR Layout', rating: '⭐ 4.7', cuisine: 'Macro-balanced meals', phone: '+91 80 6677 8899' },
+                    { name: 'Wellness Cafe', area: 'Jayanagar', rating: '⭐ 4.3', cuisine: 'Health-conscious South Indian', phone: '+91 80 2255 6677' }
+                ],
+                mumbai: [
+                    { name: 'Nutrition Hub', area: 'Bandra', rating: '⭐ 4.7', cuisine: 'Health-conscious meals', phone: '+91 22 2655 4433' },
+                    { name: 'Lite Bite', area: 'Andheri', rating: '⭐ 4.5', cuisine: 'Low-calorie Indian & Asian', phone: '+91 22 2822 3344' },
+                    { name: 'Wellness Kitchen', area: 'Powai', rating: '⭐ 4.6', cuisine: 'Organic food, Farm-to-table', phone: '+91 22 2576 8899' },
+                    { name: 'Fit Fuel', area: 'Lower Parel', rating: '⭐ 4.4', cuisine: 'Pre & Post workout meals', phone: '+91 22 2498 7766' },
+                    { name: 'Green Goodness', area: 'Juhu', rating: '⭐ 4.5', cuisine: 'Vegan, Gluten-free options', phone: '+91 22 2660 5544' }
+                ],
+                delhi: [
+                    { name: 'Health First Restaurant', area: 'Connaught Place', rating: '⭐ 4.5', cuisine: 'Continental & Indian healthy', phone: '+91 11 2344 5566' },
+                    { name: 'Diet Delight', area: 'Saket', rating: '⭐ 4.6', cuisine: 'Calorie-counted meals', phone: '+91 11 4155 6677' },
+                    { name: 'Organic Bites', area: 'Greater Kailash', rating: '⭐ 4.4', cuisine: 'Farm-fresh organic food', phone: '+91 11 2922 3344' },
+                    { name: 'Protein Point', area: 'Vasant Kunj', rating: '⭐ 4.7', cuisine: 'High-protein diet meals', phone: '+91 11 4266 7788' },
+                    { name: 'Heart Care Kitchen', area: 'Nehru Place', rating: '⭐ 4.3', cuisine: 'Low-sodium healthy food', phone: '+91 11 2644 5566' }
+                ],
+                chennai: [
+                    { name: 'Wellness Meals', area: 'T Nagar', rating: '⭐ 4.5', cuisine: 'Healthy South Indian', phone: '+91 44 2433 4455' },
+                    { name: 'Fit Kitchen Chennai', area: 'Anna Nagar', rating: '⭐ 4.6', cuisine: 'Diet-friendly meals', phone: '+91 44 2626 5566' },
+                    { name: 'Green Plate', area: 'Adyar', rating: '⭐ 4.4', cuisine: 'Vegetarian health food', phone: '+91 44 2491 2233' },
+                    { name: 'Nutrition Corner', area: 'Velachery', rating: '⭐ 4.7', cuisine: 'Balanced macro meals', phone: '+91 44 2225 6677' }
+                ],
+                pune: [
+                    { name: 'Health Express', area: 'Koregaon Park', rating: '⭐ 4.6', cuisine: 'Healthy fast food', phone: '+91 20 2615 4455' },
+                    { name: 'Fit Bites Pune', area: 'Hinjewadi', rating: '⭐ 4.5', cuisine: 'Office lunch meals', phone: '+91 20 2749 5566' },
+                    { name: 'Organic Kitchen', area: 'Viman Nagar', rating: '⭐ 4.4', cuisine: 'Farm-to-fork dining', phone: '+91 20 2668 7788' },
+                    { name: 'Wellness Cafe', area: 'Baner', rating: '⭐ 4.7', cuisine: 'Keto & Paleo options', phone: '+91 20 2729 6677' }
+                ]
+            };
+
+            const cityRestaurants = restaurants[city] || restaurants.hyderabad;
+            
+            const html = cityRestaurants.map(restaurant => `
+                <div class="restaurant-card">
+                    <div class="restaurant-info">
+                        <h5>🍴 ${restaurant.name}</h5>
+                        <p>📍 ${restaurant.area}, ${city.charAt(0).toUpperCase() + city.slice(1)}</p>
+                        <p>🍽️ ${restaurant.cuisine}</p>
+                        <p>📞 ${restaurant.phone}</p>
+                    </div>
+                    <div class="rating">${restaurant.rating}</div>
+                </div>
+            `).join('');
+
+            document.getElementById('restaurantsList').innerHTML = html;
+        }
+
+        function scanFood() {
+            const foods = [
+                { name: 'Pizza Slice', status: 'caution', reason: 'High in calories (285 kcal) and saturated fats. Contains refined flour. Limit portion to 1-2 slices and pair with salad.', calories: 285, protein: 12 },
+                { name: 'Fresh Banana', status: 'safe', reason: 'Excellent source of potassium (422mg), vitamin B6, and natural energy. Perfect pre-workout snack.', calories: 105, protein: 1 },
+                { name: 'Fried Chicken', status: 'avoid', reason: 'Very high in saturated fats (12g) and calories (450 kcal). Deep frying creates harmful compounds. Choose grilled alternative.', calories: 450, protein: 28 },
+                { name: 'Brown Rice Bowl', status: 'safe', reason: 'Whole grain rich in fiber (3.5g) and B vitamins. Excellent for blood sugar control and sustained energy.', calories: 215, protein: 5 },
+                { name: 'Ice Cream Cup', status: 'avoid', reason: 'High sugar content (24g) and saturated fat (16g). Can spike blood sugar. Consider Greek yogurt with berries instead.', calories: 270, protein: 5 },
+                { name: 'Grilled Salmon', status: 'safe', reason: 'Excellent source of omega-3 fatty acids (2.2g), high quality protein. Great for heart and brain health.', calories: 280, protein: 39 },
+                { name: 'Cola Drink', status: 'avoid', reason: 'Contains 39g sugar per can with zero nutritional value. Can cause blood sugar spikes and weight gain.', calories: 140, protein: 0 },
+                { name: 'Oats Bowl', status: 'safe', reason: 'Rich in soluble fiber (beta-glucan) that lowers cholesterol. Provides sustained energy for 3-4 hours.', calories: 150, protein: 5 },
+                { name: 'French Fries', status: 'caution', reason: 'High in calories (365 kcal) and trans fats due to deep frying. Opt for baked sweet potato fries instead.', calories: 365, protein: 4 },
+                { name: 'Greek Yogurt', status: 'safe', reason: 'High protein (17g), rich in probiotics for gut health. Excellent source of calcium (200mg).', calories: 100, protein: 17 },
+                { name: 'Burger', status: 'avoid', reason: 'High in calories (540 kcal), saturated fats, and sodium (960mg). May contain processed meat. Choose grilled chicken burger.', calories: 540, protein: 25 },
+                { name: 'Apple', status: 'safe', reason: 'Rich in fiber (4g) and antioxidants. Low glycemic index helps maintain stable blood sugar levels.', calories: 95, protein: 0 }
+            ];
+
+            const randomFood = foods[Math.floor(Math.random() * foods.length)];
+            
+            const scanResult = document.getElementById('scanResult');
+            scanResult.innerHTML = `
+                <h3 style="font-size: 28px; margin-bottom: 15px;">Scanned: ${randomFood.name}</h3>
+                <span class="recommendation-badge ${randomFood.status}">
+                    ${randomFood.status === 'safe' ? '✅ Safe to Eat' : randomFood.status === 'caution' ? '⚠️ Eat with Caution' : '❌ Better to Avoid'}
+                </span>
+                <div style="margin-top: 25px;">
+                    <div class="food-details" style="justify-content: center;">
+                        <span class="detail-badge">🔥 ${randomFood.calories} cal</span>
+                        <span class="detail-badge">💪 ${randomFood.protein}g protein</span>
+                    </div>
+                </div>
+                <p style="margin-top: 25px; font-size: 17px; line-height: 1.8; color: #555;">${randomFood.reason}</p>
+            `;
+            scanResult.classList.add('active');
+        }
+
+        function generateDietPlan() {
+            const age = parseInt(userData.age) || 25;
+            const weight = parseInt(userData.weight) || 70;
+            const height = parseInt(userData.height) || 170;
+            
+            // Calculate BMR using Mifflin-St Jeor Equation
+            let calories = 2000;
+            if (userData.gender === 'male') {
+                calories = Math.round(10 * weight + 6.25 * height - 5 * age + 5);
+            } else {
+                calories = Math.round(10 * weight + 6.25 * height - 5 * age - 161);
+            }
+
+            // Adjust based on conditions
+            if (userData.conditions.includes('obesity')) calories = Math.round(calories * 0.75);
+            if (userData.conditions.includes('diabetes')) calories = Math.round(calories * 0.85);
+            if (userData.conditions.includes('heart')) calories = Math.round(calories * 0.90);
+
+            // Activity factor (assuming moderate activity)
+            calories = Math.round(calories * 1.55);
+
+            document.getElementById('calorieTarget').textContent = calories;
+            document.getElementById('proteinTarget').textContent = Math.round(weight * 1.2);
+            document.getElementById('carbTarget').textContent = Math.round(calories * 0.45 / 4);
+            document.getElementById('fatTarget').textContent = Math.round(calories * 0.30 / 9);
+
+            const mealPlan = `
+                <div class="food-card">
+                    <h4>🌅 Early Morning (6:30 AM)</h4>
+                    <p>1 glass warm water with lemon + 4-5 soaked almonds</p>
+                    <div class="food-details">
+                        <span class="detail-badge">🔥 50 cal</span>
+                        <span class="detail-badge">💧 Hydration boost</span>
+                    </div>
+                </div>
+                <div class="food-card">
+                    <h4>🍳 Breakfast (8:00 AM - 9:00 AM)</h4>
+                    <p>Option 1: Oats with fruits, nuts and honey<br>Option 2: Egg white omelette (3 eggs) with whole wheat toast and avocado<br>Option 3: Upma with vegetables + 1 banana</p>
+                    <div class="food-details">
+                        <span class="detail-badge">🔥 ${Math.round(calories * 0.30)} cal</span>
+                        <span class="detail-badge">💪 ${Math.round(weight * 0.25)}g protein</span>
+                        <span class="detail-badge">⏱️ Sustained energy</span>
+                    </div>
+                </div>
+                <div class="food-card">
+                    <h4>🥪 Mid-Morning Snack (11:00 AM)</h4>
+                    <p>Fresh seasonal fruits (apple, orange, or papaya) OR Green tea with roasted nuts (10-12 pieces)</p>
+                    <div class="food-details">
+                        <span class="detail-badge">🔥 ${Math.round(calories * 0.10)} cal</span>
+                        <span class="detail-badge">🍎 Vitamins & Fiber</span>
+                    </div>
+                </div>
+                <div class="food-card">
+                    <h4>🍱 Lunch (1:00 PM - 2:00 PM)</h4>
+                    <p>2 whole wheat roti OR 1 cup brown rice + Dal (1 bowl) + Mixed vegetable curry + Fresh green salad + Curd (1 bowl)</p>
+                    <div class="food-details">
+                        <span class="detail-badge">🔥 ${Math.round(calories * 0.35)} cal</span>
+                        <span class="detail-badge">💪 ${Math.round(weight * 0.30)}g protein</span>
+                        <span class="detail-badge">🥗 Complete meal</span>
+                    </div>
+                </div>
+                <div class="food-card">
+                    <h4>☕ Evening Snack (4:30 PM - 5:00 PM)</h4>
+                    <p>Sprouts salad with lemon OR Roasted chickpeas (makhana) OR Buttermilk with cucumber</p>
+                    <div class="food-details">
+                        <span class="detail-badge">🔥 ${Math.round(calories * 0.08)} cal</span>
+                        <span class="detail-badge">💪 8-10g protein</span>
+                    </div>
+                </div>
+                <div class="food-card">
+                    <h4>🌙 Dinner (7:30 PM - 8:30 PM)</h4>
+                    <p>Option 1: Grilled chicken/fish (150g) with steamed vegetables<br>Option 2: Paneer bhurji with 2 roti and green salad<br>Option 3: Mixed dal khichdi with vegetables + raita</p>
+                    <div class="food-details">
+                        <span class="detail-badge">🔥 ${Math.round(calories * 0.25)} cal</span>
+                        <span class="detail-badge">💪 ${Math.round(weight * 0.35)}g protein</span>
+                        <span class="detail-badge">🌙 Light & nutritious</span>
+                    </div>
+                </div>
+                <div class="food-card">
+                    <h4>🛏️ Before Bed (10:00 PM)</h4>
+                    <p>1 glass warm milk with a pinch of turmeric OR Chamomile tea</p>
+                    <div class="food-details">
+                        <span class="detail-badge">🔥 ${Math.round(calories * 0.05)} cal</span>
+                        <span class="detail-badge">😴 Better sleep</span>
+                    </div>
+                </div>
+                <div class="food-card" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);">
+                    <h4>💡 Important Tips</h4>
+                    <p>✓ Drink 8-10 glasses of water daily<br>✓ Avoid sugary drinks and processed foods<br>✓ Exercise for 30-45 minutes daily<br>✓ Sleep 7-8 hours<br>✓ Eat dinner 3 hours before bed<br>✓ Chew food slowly and mindfully</p>
+                </div>
+            `;
+
+            document.getElementById('dietPlanList').innerHTML = mealPlan;
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName + 'Tab').classList.add('active');
+        }
+
+        function logout() {
+            if(confirm('Are you sure you want to logout?')) {
+                document.getElementById('dashboardSection').classList.remove('active');
+                document.getElementById('profileSection').classList.remove('active');
+                document.getElementById('loginSection
